@@ -101,7 +101,7 @@ __process_powerline() {
 		local separator_background_color=${powerline_segment[4]}
 		local separator_foreground_color=${powerline_segment[5]}
 
-		eval "__print_${side}_segment ${segment_index} ${background_color} ${foreground_color} ${separator} ${separator_background_color} ${separator_foreground_color}"
+		eval "__print_${side}_segment ${segment_index} ${background_color} ${foreground_color}" # ${separator} ${separator_background_color} ${separator_foreground_color}"
 	done
 }
 

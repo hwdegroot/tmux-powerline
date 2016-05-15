@@ -10,11 +10,11 @@ run_segment() {
 		cpus_line=$(top -e -l 1 | grep "CPU usage:" | sed 's/CPU usage: //')
 		cpu_user=$(echo "$cpus_line" | awk '{print $1}'  | sed 's/%//' )
 		cpu_system=$(echo "$cpus_line" | awk '{print $3}'| sed 's/%//' )
-		cpu_idle=$(echo "$cpus_line" | awk '{print $5}'  | sed 's/%//' )
+		cpu_idle=$(echo "$cpus_line" | awk '{print $5}'  | sed 's/%//;s/,/./' )
 	fi
 
 	if [ -n "$cpu_user" ] && [ -n "$cpu_system" ] && [ -n "$cpu_idle" ]; then
-		echo "${cpu_user}, ${cpu_system}, ${cpu_idle}" | awk -F', ' '{printf("%5.1f,%5.1f,%5.1f",$1,$2,$3)}'
+		echo "#[fg=yellow]${cpu_user//,/.}% #[fg=colour250]${cpu_system//,/.}% #[fg=default]${cpu_idle//,/.}%"  # | awk -F', ' '{printf("%5.1f,%5.1f,%5.1f",$1,$2,$3)}'
 		return 0
 	else
 		return 1

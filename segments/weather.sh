@@ -28,7 +28,7 @@ export TMUX_POWERLINE_SEG_WEATHER_GREP="${TMUX_POWERLINE_SEG_WEATHER_GREP_DEFAUL
 # 1. Go to Yahoo weather http://weather.yahoo.com/
 # 2. Find the weather for you location
 # 3. Copy the last numbers in that URL. e.g. "http://weather.yahoo.com/united-states/california/newport-beach-12796587/" has the numbers "12796587"
-export TMUX_POWERLINE_SEG_WEATHER_LOCATION=""
+export TMUX_POWERLINE_SEG_WEATHER_LOCATION=727476
 EORC
 	echo "$rccontents"
 }
@@ -62,7 +62,7 @@ __process_settings() {
 		export TMUX_POWERLINE_SEG_WEATHER_GREP="${TMUX_POWERLINE_SEG_WEATHER_GREP_DEFAULT}"
 	fi
 	if [ -z "$TMUX_POWERLINE_SEG_WEATHER_LOCATION" ]; then
-		echo "No weather location specified.";
+		echo "-";
 		exit 8
 	fi
 }
@@ -84,7 +84,7 @@ __yahoo_weather() {
 	fi
 
 	if [ -z "$degree" ]; then
-		weather_data=$(curl --max-time 4 -s "https://query.yahooapis.com/v1/public/yql?format=xml&q=SELECT%20*%20FROM%20weather.forecast%20WHERE%20u=%27${TMUX_POWERLINE_SEG_WEATHER_UNIT}%27%20AND%20woeid%20=%20%27${TMUX_POWERLINE_SEG_WEATHER_LOCATION}%27")
+		weather_data=$(curl --max-time 4 -s "http://weather.yahooapis.com/forecastrss?w=${TMUX_POWERLINE_SEG_WEATHER_LOCATION}&u=${TMUX_POWERLINE_SEG_WEATHER_UNIT}")
 		if [ "$?" -eq "0" ]; then
 			error=$(echo "$weather_data" | grep "problem_cause\|DOCTYPE");
 			if [ -n "$error" ]; then
